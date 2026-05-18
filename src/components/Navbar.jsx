@@ -14,7 +14,7 @@ export default function Navbar() {
         setIsScrolled(false);
       }
 
-      const sections = ['home', 'products', 'science', 'distributor'];
+      const sections = ['home', 'products', 'revolutions', 'science', 'distributor'];
       const scrollPos = window.scrollY + 200;
 
       for (const section of sections) {
@@ -72,6 +72,18 @@ export default function Navbar() {
             }}
           >
             Tablet Catalog
+          </a>
+        </li>
+        <li>
+          <a
+            href="#revolutions"
+            className={activeSection === 'revolutions' ? 'active' : ''}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('revolutions');
+            }}
+          >
+            Rotary Press
           </a>
         </li>
         <li>

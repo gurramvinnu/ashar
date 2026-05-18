@@ -3,6 +3,7 @@ import Background3D from './components/Background3D';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import ProductsSection from './components/ProductsSection';
+import RevolutionsSection from './components/RevolutionsSection';
 import AboutSection from './components/AboutSection';
 import ContactSection from './components/ContactSection';
 import { Pill } from 'lucide-react';
@@ -27,6 +28,8 @@ export default function App() {
             sampleCart={sampleCart} 
             setSampleCart={setSampleCart} 
           />
+
+          <RevolutionsSection />
           
           <AboutSection />
           
