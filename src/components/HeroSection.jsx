@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, ArrowRight, Pill, Factory, Globe2, Network } from 'lucide-react';
+import TiltCard from './TiltCard';
 
 export default function HeroSection() {
   const containerVariants = {
@@ -40,6 +41,7 @@ export default function HeroSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-100px' }}
+        style={{ transformStyle: 'preserve-3d' }}
       >
         <motion.div className="hero-tag" variants={itemVariants}>
           <ShieldCheck size={16} />
@@ -73,39 +75,39 @@ export default function HeroSection() {
           </button>
         </motion.div>
 
-        {/* B2B Stats Grid */}
-        <motion.div className="stats-bar" variants={itemVariants}>
-          <div className="stat-card glass-panel">
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', color: 'var(--primary)' }}>
+        {/* B2B Stats Grid with 3D perspective Tilt */}
+        <motion.div className="stats-bar" variants={itemVariants} style={{ transformStyle: 'preserve-3d' }}>
+          <TiltCard className="stat-card glass-panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', color: 'var(--primary)', transform: 'translateZ(35px)' }}>
               <Pill size={24} />
             </div>
-            <div className="stat-number">12B+</div>
-            <div className="stat-label">Tablets pressed annually</div>
-          </div>
+            <div className="stat-number" style={{ transform: 'translateZ(40px)' }}>12B+</div>
+            <div className="stat-label" style={{ transform: 'translateZ(20px)' }}>Tablets pressed annually</div>
+          </TiltCard>
           
-          <div className="stat-card glass-panel">
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', color: 'var(--accent)' }}>
+          <TiltCard className="stat-card glass-panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', color: 'var(--accent)', transform: 'translateZ(35px)' }}>
               <Factory size={24} />
             </div>
-            <div className="stat-number">100%</div>
-            <div className="stat-label">WHO-GMP Compliant</div>
-          </div>
+            <div className="stat-number" style={{ transform: 'translateZ(40px)' }}>100%</div>
+            <div className="stat-label" style={{ transform: 'translateZ(20px)' }}>WHO-GMP Compliant</div>
+          </TiltCard>
           
-          <div className="stat-card glass-panel">
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', color: 'var(--secondary)' }}>
+          <TiltCard className="stat-card glass-panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', color: 'var(--secondary)', transform: 'translateZ(35px)' }}>
               <Globe2 size={24} />
             </div>
-            <div className="stat-number">48+</div>
-            <div className="stat-label">Global Ports Supplied</div>
-          </div>
+            <div className="stat-number" style={{ transform: 'translateZ(40px)' }}>48+</div>
+            <div className="stat-label" style={{ transform: 'translateZ(20px)' }}>Global Ports Supplied</div>
+          </TiltCard>
 
-          <div className="stat-card glass-panel">
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', color: 'var(--primary)' }}>
+          <TiltCard className="stat-card glass-panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', color: 'var(--primary)', transform: 'translateZ(35px)' }}>
               <Network size={24} />
             </div>
-            <div className="stat-number">950+</div>
-            <div className="stat-label">Active B2B Marketers</div>
-          </div>
+            <div className="stat-number" style={{ transform: 'translateZ(40px)' }}>950+</div>
+            <div className="stat-label" style={{ transform: 'translateZ(20px)' }}>Active B2B Marketers</div>
+          </TiltCard>
         </motion.div>
       </motion.div>
 

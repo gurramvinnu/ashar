@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, ShieldCheck, Sparkles, Activity, Eye, Layers } from 'lucide-react';
+import { Cpu, ShieldCheck, Activity, Layers } from 'lucide-react';
+import TiltCard from './TiltCard';
 
 const INNOVATIONS = [
   {
@@ -80,29 +81,46 @@ export default function AboutSection() {
         </div>
       </motion.div>
 
-      {/* Right Column: Dynamic tech cards */}
+      {/* Right Column: Key Tech Cards with 3D Perspective Tilt */}
       <motion.div 
         className="about-features"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-100px' }}
+        style={{ transformStyle: 'preserve-3d' }}
       >
         {INNOVATIONS.map((inn) => {
           const Icon = inn.icon;
           return (
             <motion.div 
               key={inn.id}
-              className="about-card glass-panel"
               variants={cardVariants}
+              style={{ display: 'flex', transformStyle: 'preserve-3d' }}
             >
-              <div className="about-card-icon" style={{ color: 'var(--primary)', borderColor: 'rgba(6, 182, 212, 0.2)', background: 'rgba(6, 182, 212, 0.05)' }}>
-                <Icon size={24} />
-              </div>
-              <div className="about-card-info">
-                <h4>{inn.title}</h4>
-                <p>{inn.desc}</p>
-              </div>
+              <TiltCard 
+                className="about-card glass-panel"
+                style={{ width: '100%', display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}
+              >
+                {/* 3D Icon Parallax (TranslateZ Projection) */}
+                <div 
+                  className="about-card-icon" 
+                  style={{ 
+                    color: 'var(--primary)', 
+                    borderColor: 'rgba(6, 182, 212, 0.2)', 
+                    background: 'rgba(6, 182, 212, 0.05)',
+                    transform: 'translateZ(40px)',
+                    flexShrink: 0
+                  }}
+                >
+                  <Icon size={24} />
+                </div>
+                {/* 3D Info Parallax (TranslateZ Projection) */}
+                <div className="about-card-info" style={{ transform: 'translateZ(25px)' }}>
+                  <h4>{inn.title}</h4>
+                  <p>{inn.desc}</p>
+                </div>
+              </TiltCard>
             </motion.div>
           );
         })}

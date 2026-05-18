@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, Mail, MapPin, Building, CheckCircle, Package2, ShieldCheck } from 'lucide-react';
+import { Phone, Mail, Building, CheckCircle, Package2, ShieldCheck } from 'lucide-react';
+import TiltCard from './TiltCard';
 
 export default function ContactSection({ sampleCart = [], setSampleCart }) {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -87,6 +88,7 @@ export default function ContactSection({ sampleCart = [], setSampleCart }) {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
+        style={{ transformStyle: 'preserve-3d' }}
       >
         <AnimatePresence mode="wait">
           {!formSubmitted ? (
@@ -225,12 +227,10 @@ export default function ContactSection({ sampleCart = [], setSampleCart }) {
               </button>
             </motion.form>
           ) : (
-            <motion.div 
+            // Wrapping the success card in a highly premium 3D Perspective Tilt Card!
+            <TiltCard 
               key="form-success"
               className="glass-panel"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
               style={{
                 padding: '4rem 3rem',
                 display: 'flex',
@@ -242,12 +242,22 @@ export default function ContactSection({ sampleCart = [], setSampleCart }) {
                 boxShadow: '0 0 40px rgba(20, 184, 166, 0.2)'
               }}
             >
-              <div style={{ color: 'var(--accent)' }}>
+              {/* 3D Parallax layers inside the success card */}
+              <div style={{ color: 'var(--accent)', transform: 'translateZ(45px)' }}>
                 <CheckCircle size={72} className="animate-bounce" />
               </div>
-              <h3 style={{ fontSize: '2rem', color: 'var(--text-primary)' }}>Lead Successfully Registered!</h3>
+              <h3 style={{ fontSize: '2rem', color: 'var(--text-primary)', transform: 'translateZ(35px)' }}>
+                Lead Successfully Registered!
+              </h3>
               
-              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px dashed var(--glass-border)', padding: '1rem', borderRadius: '12px', width: '100%' }}>
+              <div style={{ 
+                background: 'rgba(255,255,255,0.02)', 
+                border: '1px dashed var(--glass-border)', 
+                padding: '1rem', 
+                borderRadius: '12px', 
+                width: '100%',
+                transform: 'translateZ(25px)' 
+              }}>
                 <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.2rem' }}>
                   Distributor Profile Lodged
                 </span>
@@ -255,11 +265,20 @@ export default function ContactSection({ sampleCart = [], setSampleCart }) {
                 <span style={{ fontSize: '0.82rem', color: 'var(--primary)' }}>License Ref: {formData.licenseNumber}</span>
               </div>
 
-              <p style={{ color: 'var(--text-secondary)', maxWidth: '450px', fontSize: '1.02rem', lineHeight: '1.6' }}>
+              <p style={{ color: 'var(--text-secondary)', maxWidth: '450px', fontSize: '1.02rem', lineHeight: '1.6', transform: 'translateZ(15px)' }}>
                 Thank you, <strong>{formData.name}</strong>. Your sample inquiry for <strong>{sampleCart.length > 0 ? sampleCart.join(', ') : 'our general distributor catalog'}</strong> has been registered. 
               </p>
               
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', background: 'rgba(20, 184, 166, 0.05)', padding: '0.8rem 1.2rem', borderRadius: '8px', border: '1px solid rgba(20, 184, 166, 0.15)' }}>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.6rem', 
+                background: 'rgba(20, 184, 166, 0.05)', 
+                padding: '0.8rem 1.2rem', 
+                borderRadius: '8px', 
+                border: '1px solid rgba(20, 184, 166, 0.15)',
+                transform: 'translateZ(20px)' 
+              }}>
                 <ShieldCheck size={18} style={{ color: 'var(--accent)' }} />
                 <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
                   Wholesale GMP sample verification ticket dispatched to <strong>{formData.email}</strong>.
@@ -273,11 +292,11 @@ export default function ContactSection({ sampleCart = [], setSampleCart }) {
                   setSampleCart([]);
                   setFormData({ name: '', email: '', company: '', licenseNumber: '', volume: 'medium', message: '' });
                 }}
-                style={{ marginTop: '1rem' }}
+                style={{ marginTop: '1rem', transform: 'translateZ(30px)' }}
               >
                 Log New distributor Lead
               </button>
-            </motion.div>
+            </TiltCard>
           )}
         </AnimatePresence>
       </motion.div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Sparkles, Filter, ShoppingBag, Eye, Layers, Calendar, Pill } from 'lucide-react';
+import { Shield, Sparkles, ShoppingBag, Eye, Layers, Calendar, Pill } from 'lucide-react';
+import TiltCard from './TiltCard';
 
 const PRODUCTS = [
   {
@@ -77,9 +78,8 @@ const PRODUCTS = [
   }
 ];
 
-export default function ProductsSection() {
+export default function ProductsSection({ sampleCart = [], setSampleCart }) {
   const [filter, setFilter] = useState('all');
-  const [sampleCart, setSampleCart] = useState([]);
   const [activeModalProduct, setActiveModalProduct] = useState(null);
 
   const filteredProducts = filter === 'all' 
@@ -129,7 +129,7 @@ export default function ProductsSection() {
         </p>
       </div>
 
-      {/* Catalog Control Bar (Filters + Sample Cart Counter) */}
+      {/* Catalog Control Bar */}
       <div className="glass-panel" style={{
         display: 'flex',
         flexWrap: 'wrap',
@@ -204,13 +204,13 @@ export default function ProductsSection() {
               }}
               style={{ padding: '0.5rem 1.2rem', borderRadius: '8px', fontSize: '0.88rem' }}
             >
-              Order Sample Sheets Now
+              Order Sample Sheets
             </button>
           )}
         </div>
       </div>
 
-      {/* Grid of Medical Tablets & Blister Sheets */}
+      {/* Grid of 3D Perspective Tilt Product Cards */}
       <motion.div 
         className="dept-grid"
         variants={containerVariants}
@@ -226,86 +226,114 @@ export default function ProductsSection() {
                 key={product.id}
                 layout
                 variants={productVariants}
-                className="dept-card glass-panel"
-                whileHover={{ y: -8 }}
-                style={{ position: 'relative' }}
+                style={{ display: 'flex', transformStyle: 'preserve-3d' }}
               >
-                {/* Tech Badge */}
-                <div style={{
-                  position: 'absolute',
-                  top: '1.2rem',
-                  right: '1.2rem',
-                  padding: '0.2rem 0.6rem',
-                  borderRadius: '5px',
-                  background: 'rgba(255,255,255,0.05)',
-                  fontSize: '0.75rem',
-                  fontWeight: '600',
-                  color: product.color,
-                  border: `1px solid ${product.color}33`
-                }}>
-                  {product.classLabel}
-                </div>
-
-                <div 
-                  className="dept-icon-wrapper" 
-                  style={{ color: product.color, background: `${product.color}11`, borderColor: `${product.color}33` }}
+                <TiltCard 
+                  className="dept-card glass-panel"
+                  style={{ 
+                    position: 'relative', 
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1.2rem'
+                  }}
                 >
-                  <Pill size={28} />
-                </div>
-
-                <h3 style={{ marginTop: '0.5rem' }}>{product.name}</h3>
-                
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Layers size={14} style={{ color: 'var(--primary)' }} />
-                    <span><strong>API Form:</strong> {product.api}</span>
+                  {/* Floating Class Badge (TranslateZ Projection) */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '1.2rem',
+                    right: '1.2rem',
+                    padding: '0.2rem 0.6rem',
+                    borderRadius: '5px',
+                    background: 'rgba(255,255,255,0.05)',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    color: product.color,
+                    border: `1px solid ${product.color}33`,
+                    transform: 'translateZ(40px)'
+                  }}>
+                    {product.classLabel}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Shield size={14} style={{ color: 'var(--accent)' }} />
-                    <span><strong>Packaging:</strong> {product.sheetStyle}</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Calendar size={14} style={{ color: 'var(--secondary)' }} />
-                    <span><strong>Shelf Life:</strong> {product.shelfLife}</span>
-                  </div>
-                </div>
 
-                <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                  {product.desc}
-                </p>
-
-                {/* B2B Action Buttons */}
-                <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
-                  <button 
-                    onClick={() => setActiveModalProduct(product)}
-                    className="btn-secondary" 
-                    style={{ flex: 1, padding: '0.5rem', borderRadius: '8px', fontSize: '0.85rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem' }}
-                  >
-                    <Eye size={16} />
-                    <span>Tech Sheet</span>
-                  </button>
-                  <button 
-                    onClick={() => handleAddSample(product.name)}
-                    className="btn-primary" 
+                  {/* Icon Wrapper (TranslateZ Projection) */}
+                  <div 
+                    className="dept-icon-wrapper" 
                     style={{ 
-                      flex: 1, 
-                      padding: '0.5rem', 
-                      borderRadius: '8px', 
-                      fontSize: '0.85rem',
-                      background: isSelected ? 'var(--accent)' : 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)',
-                      boxShadow: isSelected ? '0 0 15px rgba(20, 184, 166, 0.4)' : 'none'
+                      color: product.color, 
+                      background: `${product.color}11`, 
+                      borderColor: `${product.color}33`,
+                      transform: 'translateZ(45px)'
                     }}
                   >
-                    {isSelected ? 'Selected' : 'Get Sample'}
-                  </button>
-                </div>
+                    <Pill size={28} />
+                  </div>
+
+                  {/* Title (TranslateZ Projection) */}
+                  <h3 style={{ marginTop: '0.2rem', transform: 'translateZ(35px)' }}>
+                    {product.name}
+                  </h3>
+                  
+                  {/* Specifications (TranslateZ Projection) */}
+                  <div style={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    gap: '0.4rem', 
+                    fontSize: '0.85rem', 
+                    color: 'var(--text-secondary)',
+                    transform: 'translateZ(25px)' 
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <Layers size={14} style={{ color: 'var(--primary)' }} />
+                      <span><strong>API Form:</strong> {product.api}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <Shield size={14} style={{ color: 'var(--accent)' }} />
+                      <span><strong>Packaging:</strong> {product.sheetStyle}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <Calendar size={14} style={{ color: 'var(--secondary)' }} />
+                      <span><strong>Shelf Life:</strong> {product.shelfLife}</span>
+                    </div>
+                  </div>
+
+                  {/* Description (TranslateZ Projection) */}
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', flexGrow: 1, transform: 'translateZ(15px)' }}>
+                    {product.desc}
+                  </p>
+
+                  {/* B2B Action Buttons (TranslateZ Projection) */}
+                  <div style={{ display: 'flex', gap: '1rem', marginTop: 'auto', transform: 'translateZ(30px)' }}>
+                    <button 
+                      onClick={() => setActiveModalProduct(product)}
+                      className="btn-secondary" 
+                      style={{ flex: 1, padding: '0.5rem', borderRadius: '8px', fontSize: '0.85rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem' }}
+                    >
+                      <Eye size={16} />
+                      <span>Tech Sheet</span>
+                    </button>
+                    <button 
+                      onClick={() => handleAddSample(product.name)}
+                      className="btn-primary" 
+                      style={{ 
+                        flex: 1, 
+                        padding: '0.5rem', 
+                        borderRadius: '8px', 
+                        fontSize: '0.85rem',
+                        background: isSelected ? 'var(--accent)' : 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)',
+                        boxShadow: isSelected ? '0 0 15px rgba(20, 184, 166, 0.4)' : 'none'
+                      }}
+                    >
+                      {isSelected ? 'Selected' : 'Get Sample'}
+                    </button>
+                  </div>
+                </TiltCard>
               </motion.div>
             );
           })}
         </AnimatePresence>
       </motion.div>
 
-      {/* Tech Specifications Modal Overlay (Highly premium interactive feature) */}
+      {/* Technical Specifications Modal Overlay */}
       <AnimatePresence>
         {activeModalProduct && (
           <motion.div 
@@ -328,10 +356,8 @@ export default function ProductsSection() {
             }}
             onClick={() => setActiveModalProduct(null)}
           >
-            <motion.div 
-              initial={{ scale: 0.9, y: 30 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 30 }}
+            {/* Embedded 3D spec card in the modal */}
+            <TiltCard 
               className="glass-panel"
               style={{
                 width: '100%',
@@ -339,11 +365,12 @@ export default function ProductsSection() {
                 padding: '2.5rem',
                 borderRadius: '24px',
                 border: `1px solid ${activeModalProduct.color}`,
-                boxShadow: `0 0 40px ${activeModalProduct.color}22`
+                boxShadow: `0 0 40px ${activeModalProduct.color}22`,
+                position: 'relative'
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem', transform: 'translateZ(30px)' }}>
                 <div>
                   <span style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', color: activeModalProduct.color }}>
                     {activeModalProduct.classLabel} Division
@@ -359,7 +386,16 @@ export default function ProductsSection() {
               </div>
 
               {/* Technical Spec Table */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', background: 'rgba(255,255,255,0.02)', padding: '1.2rem', borderRadius: '14px', border: '1px solid var(--glass-border)' }}>
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: '0.8rem', 
+                background: 'rgba(255,255,255,0.02)', 
+                padding: '1.2rem', 
+                borderRadius: '14px', 
+                border: '1px solid var(--glass-border)',
+                transform: 'translateZ(25px)' 
+              }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Active Pharmaceutical Ingredient</span>
                   <span style={{ fontWeight: '600', fontSize: '0.9rem' }}>{activeModalProduct.api}</span>
@@ -382,7 +418,17 @@ export default function ProductsSection() {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', background: 'rgba(6, 182, 212, 0.05)', padding: '1rem', borderRadius: '12px', marginTop: '1.5rem', border: '1px solid rgba(6, 182, 212, 0.1)' }}>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.8rem', 
+                background: 'rgba(6, 182, 212, 0.05)', 
+                padding: '1rem', 
+                borderRadius: '12px', 
+                marginTop: '1.5rem', 
+                border: '1px solid rgba(6, 182, 212, 0.1)',
+                transform: 'translateZ(20px)' 
+              }}>
                 <Sparkles size={18} style={{ color: 'var(--primary)' }} />
                 <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
                   <strong>Marketer Tip:</strong> This blister packaging includes gas-purged nitrogen pockets ensuring chemical stability in hot and humid tropical clinical markets.
@@ -395,11 +441,16 @@ export default function ProductsSection() {
                   setActiveModalProduct(null);
                 }}
                 className="btn-primary" 
-                style={{ width: '100%', marginTop: '1.5rem', background: sampleCart.includes(activeModalProduct.name) ? 'var(--accent)' : 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)' }}
+                style={{ 
+                  width: '100%', 
+                  marginTop: '1.5rem', 
+                  background: sampleCart.includes(activeModalProduct.name) ? 'var(--accent)' : 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)',
+                  transform: 'translateZ(30px)' 
+                }}
               >
                 {sampleCart.includes(activeModalProduct.name) ? 'Remove Sample Sheet' : 'Add to Free Sample Request'}
               </button>
-            </motion.div>
+            </TiltCard>
           </motion.div>
         )}
       </AnimatePresence>
